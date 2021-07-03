@@ -22,5 +22,6 @@ export default {
 .v-main-wrapper {
   max-width: $desktop-width;
   margin: 0 auto;
+  padding: $base;
 }
 </style>

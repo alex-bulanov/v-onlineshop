@@ -1,10 +1,21 @@
 <template>
   <div class="v-catalog-item">
-    <img class="v-catalog-item__img" src="" alt="Product image" />
+    <div class="v-catalog-item__img-container">
+      <img
+        class="v-catalog-item__img"
+        :src="require('../assets/images/' + product_data.image)"
+        alt="Product image"
+      />
+    </div>
+
     <div class="v-catalog-item__info">
-      <h3 class="v-catalog-item__title">Product 1</h3>
-      <p class="v-catalog-item__price">Цена: 100 &#8381;</p>
-      <button class="v-catalog-item__button button">В корзину</button>
+      <h3 class="v-catalog-item__title">{{ product_data.name }}</h3>
+      <p class="v-catalog-item__price">
+        Цена: {{ product_data.price }} &#8381;
+      </p>
+      <button class="v-catalog-item__button button" @click="sendDataToParent">
+        В корзину
+      </button>
     </div>
   </div>
 </template>
@@ -15,17 +26,41 @@ export default {
   data() {
     return {};
   },
+  props: {
+    product_data: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   components: {},
-  methods: {},
+  methods: {
+    sendDataToParent() {
+      this.$emit("sendArticle", this.product_data.article);
+    },
+  },
   computed: {},
 };
 </script>
 
 <style lang="scss">
 .v-catalog-item {
-  width: 200px;
+  padding: $base;
+  border-radius: $base / 2;
+  background: $white;
+  box-shadow: 8px 8px 16px #ebebeb, -8px -8px 16px #ffffff;
+
+  &__img-container {
+    display: flex;
+    max-height: 250px;
+    margin-bottom: $base;
+  }
+
   &__img {
     display: flex;
+    width: 100%;
+    object-fit: contain;
   }
 
   &__title {
