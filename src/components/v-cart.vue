@@ -8,11 +8,9 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
   components: {},
   methods: {},
   computed: {},
-  watch: {},
 };
 </script>
 
