@@ -26,6 +26,9 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+    this.$set(this.product_data, "quantity", 1);
+  },
   props: {
     product_data: {
       type: Object,

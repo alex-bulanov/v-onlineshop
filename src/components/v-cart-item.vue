@@ -28,9 +28,7 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    this.$set(this.cart_item_data, "quantity", 1);
-  },
+
   props: {
     cart_item_data: {
       type: Object,
