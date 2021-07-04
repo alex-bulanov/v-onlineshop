@@ -4,7 +4,7 @@
       <img
         class="v-catalog-item__img"
         :src="require('../assets/images/' + product_data.image)"
-        alt="Product image"
+        :alt="product_data.name"
       />
     </div>
 
@@ -13,7 +13,7 @@
       <p class="v-catalog-item__price">
         Цена: {{ product_data.price }} &#8381;
       </p>
-      <button class="v-catalog-item__button button" @click="sendDataToParent">
+      <button class="v-catalog-item__button button" @click="addToCart">
         В корзину
       </button>
     </div>
@@ -36,8 +36,8 @@ export default {
   },
   components: {},
   methods: {
-    sendDataToParent() {
-      this.$emit("sendArticle", this.product_data.article);
+    addToCart() {
+      this.$emit("addToCart", this.product_data);
     },
   },
   computed: {},
