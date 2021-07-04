@@ -14,7 +14,13 @@
     </div>
     <div class="v-cart-item__quantity">
       <span>Количество:</span>
-      {{ cart_item_data.quantity }}
+      <div class="v-cart-item__quantity-wrapper">
+        <button type="button" @click="decrementItem">-</button>
+        <span>
+          {{ cart_item_data.quantity }}
+        </span>
+        <button type="button" @click="incrementItem">+</button>
+      </div>
     </div>
     <button class="v-cart-item__button button" @click="deleteFromCart">
       Удалить
@@ -39,6 +45,12 @@ export default {
   },
   components: {},
   methods: {
+    decrementItem() {
+      this.$emit("decrement");
+    },
+    incrementItem() {
+      this.$emit("increment");
+    },
     deleteFromCart() {
       this.$emit("deleteFromCart");
     },
@@ -82,6 +94,13 @@ export default {
 
   &__article {
     margin: 0 auto;
+  }
+
+  &__quantity-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $base;
+    padding: $base 0;
   }
 
   &__quantity {

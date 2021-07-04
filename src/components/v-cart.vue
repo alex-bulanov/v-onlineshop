@@ -11,7 +11,13 @@
         :key="item.article"
         :cart_item_data="item"
         @deleteFromCart="deleteFromCart(index)"
+        @increment="increment(index)"
+        @decrement="decrement(index)"
       />
+    </div>
+    <div class="v-cart__total">
+      <p class="v-cart__total-title">Total:</p>
+      <p class="v-cart__total-value">{{ cartTotalCost }} &#8381;</p>
     </div>
   </div>
 </template>
@@ -34,12 +40,38 @@ export default {
   },
   components: { VCartItem },
   methods: {
-    ...mapActions(["DELETE_FROM_CART"]),
+    ...mapActions([
+      "DELETE_FROM_CART",
+      "INCREMENT_CART_ITEM",
+      "DECREMENT_CART_ITEM",
+    ]),
     deleteFromCart(index) {
       this.DELETE_FROM_CART(index);
     },
+    increment(index) {
+      this.INCREMENT_CART_ITEM(index);
+    },
+    decrement(index) {
+      this.DECREMENT_CART_ITEM(index);
+    },
   },
-  computed: {},
+  computed: {
+    cartTotalCost() {
+      let result = [];
+      if (this.cart_data.length) {
+        for (let item of this.cart_data) {
+          result.push(item.price * item.quantity);
+        }
+
+        result = result.reduce(function (sum, el) {
+          return sum + el;
+        }, 0);
+        return result;
+      } else {
+        return 0;
+      }
+    },
+  },
 };
 </script>
 
@@ -68,6 +100,25 @@ export default {
 
   &__message {
     text-align: center;
+  }
+
+  &__total {
+    padding: $base;
+    display: flex;
+    justify-content: center;
+    gap: $base;
+  }
+
+  &__total-title {
+    margin: 0;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  &__total-value {
+    margin: 0;
+    font-size: 24px;
+    line-height: 24px;
   }
 }
 </style>
