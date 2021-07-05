@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import VCartItem from "./v-cart-item.vue";
+import vCartItem from "./v-cart-item.vue";
 import { mapActions } from "vuex";
 export default {
   name: "v-cart",
@@ -38,7 +38,7 @@ export default {
       },
     },
   },
-  components: { VCartItem },
+  components: { vCartItem },
   methods: {
     ...mapActions([
       "DELETE_FROM_CART",

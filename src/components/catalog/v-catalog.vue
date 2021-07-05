@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import VCatalogItem from "./v-catalog-item.vue";
+import vCatalogItem from "./v-catalog-item.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -31,7 +31,7 @@ export default {
       }
     });
   },
-  components: { VCatalogItem },
+  components: { vCatalogItem },
   methods: {
     ...mapActions(["GET_PRODUCTS_FROM_API", "ADD_TO_CART"]),
     addToCart(data) {

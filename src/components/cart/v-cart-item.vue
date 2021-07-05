@@ -3,7 +3,7 @@
     <div class="v-cart-item__img-container">
       <img
         class="v-catalog-item__img"
-        :src="require('../assets/images/' + cart_item_data.image)"
+        :src="require('../../assets/images/' + cart_item_data.image)"
         :alt="cart_item_data.name"
       />
     </div>
@@ -65,7 +65,7 @@ export default {
   gap: $base;
   grid-template-columns: repeat(2, 1fr);
   padding: $base;
-  border-radius: $base / 2;
+  border-radius: $base;
   background: $white;
   box-shadow: 8px 8px 16px #ebebeb, -8px -8px 16px #ffffff;
 

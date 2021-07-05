@@ -3,7 +3,7 @@
     <div class="v-catalog-item__img-container">
       <img
         class="v-catalog-item__img"
-        :src="require('../assets/images/' + product_data.image)"
+        :src="require('../../assets/images/' + product_data.image)"
         :alt="product_data.name"
       />
     </div>
