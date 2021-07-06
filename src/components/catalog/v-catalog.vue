@@ -1,12 +1,19 @@
 <template>
   <div class="v-catalog">
     <h2 class="v-catalog__title">Каталог</h2>
+
     <router-link :to="{ name: 'cart', params: { cart_data: CART } }">
       <div class="v-catalog__link">Корзина: {{ CART.length }}</div>
     </router-link>
+    <v-select
+      :options="categories"
+      @select="sortByCategories"
+      :selected="selected"
+    />
+
     <div class="v-catalog__list">
       <v-catalog-item
-        v-for="product in PRODUCTS"
+        v-for="product in filteredProducts"
         :key="product.article"
         :product_data="product"
         @addToCart="addToCart"
@@ -17,12 +24,30 @@
 
 <script>
 import vCatalogItem from "./v-catalog-item.vue";
+import vSelect from "../select/v-select.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "v-catalog",
   data() {
-    return {};
+    return {
+      selected: "Все",
+      sortedProducts: [],
+      categories: [
+        {
+          name: "Все",
+          value: "all",
+        },
+        {
+          name: "Мужские",
+          value: "men",
+        },
+        {
+          name: "Женские",
+          value: "woman",
+        },
+      ],
+    };
   },
   mounted() {
     this.GET_PRODUCTS_FROM_API().then((response) => {
@@ -31,15 +56,33 @@ export default {
       }
     });
   },
-  components: { vCatalogItem },
+  components: { vCatalogItem, vSelect },
   methods: {
     ...mapActions(["GET_PRODUCTS_FROM_API", "ADD_TO_CART"]),
     addToCart(data) {
       this.ADD_TO_CART(data);
     },
+    sortByCategories(category) {
+      this.sortedProducts = [];
+      let vm = this;
+
+      this.PRODUCTS.map((item) => {
+        if (item.category === category.name) {
+          vm.sortedProducts.push(item);
+        }
+      });
+      this.selected = category.name;
+    },
   },
   computed: {
     ...mapGetters(["PRODUCTS", "CART"]),
+    filteredProducts() {
+      if (this.sortedProducts.length) {
+        return this.sortedProducts;
+      } else {
+        return this.PRODUCTS;
+      }
+    },
   },
 };
 </script>
@@ -76,6 +119,10 @@ export default {
     @media screen and (min-width: $extra-large) {
       grid-template-columns: repeat(4, 1fr);
     }
+  }
+
+  &__v-select {
+    margin-bottom: $base;
   }
 }
 </style>

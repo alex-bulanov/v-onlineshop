@@ -5,10 +5,12 @@
 </template>
 
 <script>
-import VMainWrapper from "./components/v-main-wrapper.vue";
+import vMainWrapper from "./components/v-main-wrapper.vue";
+
 export default {
   name: "App",
-  components: { VMainWrapper },
+
+  components: { vMainWrapper },
 };
 </script>
 
