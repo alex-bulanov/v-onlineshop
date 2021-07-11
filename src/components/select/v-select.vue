@@ -4,7 +4,7 @@
     @click="areOptionsVisible = !areOptionsVisible"
   >
     <p class="v-select__title">{{ selected }}</p>
-    <div class="v-select__options" v-if="areOptionsVisible">
+    <div class="v-select__options" v-if="areOptionsVisible || isExpanded">
       <p
         class="v-select__option"
         v-for="option in options"
@@ -42,6 +42,12 @@ export default {
       type: String,
       default() {
         return "";
+      },
+    },
+    isExpanded: {
+      type: Boolean,
+      default() {
+        return false;
       },
     },
   },

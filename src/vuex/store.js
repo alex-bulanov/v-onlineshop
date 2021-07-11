@@ -11,6 +11,8 @@ const actions = { ...commonActions, ...apiRequests };
 
 const store = new Vuex.Store({
   state: {
+    isMobile: false,
+    isDesktop: true,
     products: [],
     cart: [],
   },

@@ -1,5 +1,12 @@
+import axios from "axios";
 
 export default {
+  SET_MOBILE({ commit }) {
+    commit("SWITCH_MOBILE");
+  },
+  SET_DESKTOP({ commit }) {
+    commit("SWITCH_DESKTOP");
+  },
   GET_PRODUCTS_FROM_API({ commit }) {
     return axios(URL, {
       method: "GET"
