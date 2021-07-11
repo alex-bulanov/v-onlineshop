@@ -5,12 +5,37 @@
     <router-link :to="{ name: 'cart', params: { cart_data: CART } }">
       <div class="v-catalog__link">Корзина: {{ CART.length }}</div>
     </router-link>
-    <v-select
-      :options="categories"
-      @select="sortByCategories"
-      :selected="selected"
-      :isExpanded="IS_DESKTOP"
-    />
+    <div class="filters">
+      <v-select
+        :options="categories"
+        @select="sortByCategories"
+        :selected="selected"
+        :isExpanded="IS_DESKTOP"
+      />
+
+      <div class="range-slider">
+        <input
+          type="range"
+          min="0"
+          max="10000"
+          step="10"
+          v-model.number="minPrice"
+          @change="setRangeSlider"
+        />
+        <input
+          type="range"
+          min="0"
+          max="10000"
+          step="10"
+          v-model.number="maxPrice"
+          @change="setRangeSlider"
+        />
+      </div>
+      <div class="range-values">
+        <p>Min: {{ minPrice }}</p>
+        <p>Max: {{ maxPrice }}</p>
+      </div>
+    </div>
 
     <div class="v-catalog__list">
       <v-catalog-item
@@ -32,6 +57,8 @@ export default {
   name: "v-catalog",
   data() {
     return {
+      minPrice: 0,
+      maxPrice: 10000,
       selected: "Все",
       sortedProducts: [],
       categories: [
@@ -51,6 +78,7 @@ export default {
     };
   },
   mounted() {
+    this.sortByCategories();
     this.GET_PRODUCTS_FROM_API().then((response) => {
       if (response.data) {
         console.log("data ready");
@@ -59,20 +87,30 @@ export default {
   },
   components: { vCatalogItem, vSelect },
   methods: {
+    setRangeSlider() {
+      if (this.minPrice > this.maxPrice) {
+        let tmp = this.maxPrice;
+        this.maxPrice = this.minPrice;
+        this.minPrice = tmp;
+      }
+      this.sortByCategories();
+    },
     ...mapActions(["GET_PRODUCTS_FROM_API", "ADD_TO_CART"]),
     addToCart(data) {
       this.ADD_TO_CART(data);
     },
     sortByCategories(category) {
-      this.sortedProducts = [];
       let vm = this;
-
-      this.PRODUCTS.map((item) => {
-        if (item.category === category.name) {
-          vm.sortedProducts.push(item);
-        }
+      this.sortedProducts = [...this.PRODUCTS];
+      this.sortedProducts = this.sortedProducts.filter((item) => {
+        return item.price >= vm.minPrice && item.price <= vm.maxPrice;
       });
-      this.selected = category.name;
+      if (category) {
+        this.sortedProducts = this.sortedProducts.filter((e) => {
+          vm.selected = category.name;
+          return e.category === category.name;
+        });
+      }
     },
   },
   computed: {
@@ -124,6 +162,33 @@ export default {
 
   &__v-select {
     margin-bottom: $base;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .range-slider {
+    width: 200px;
+    margin: auto 16px auto auto;
+    text-align: center;
+    position: relative;
+  }
+
+  .range-slider svg,
+  .range-slider input[type="range"] {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    z-index: 2;
+    position: relative;
+    top: 2px;
+    margin-top: -7px;
   }
 }
 </style>
