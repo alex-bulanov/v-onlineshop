@@ -9,7 +9,9 @@
     </div>
     <div class="v-cart-item__info">
       <h3 class="v-cart-item__title">{{ cart_item_data.name }}</h3>
-      <p class="v-cart-item__price">{{ cart_item_data.price }}</p>
+      <p class="v-cart-item__price">
+        {{ cart_item_data.price | toFix | formattedPrice }}
+      </p>
       <p class="v-cart-item__article">{{ cart_item_data.article }}</p>
     </div>
     <div class="v-cart-item__quantity">
@@ -29,12 +31,17 @@
 </template>
 
 <script>
+import toFix from "../../filters/toFix";
+import formattedPrice from "../../filters/formattedPrice";
 export default {
   name: "v-cart-item",
   data() {
     return {};
   },
-
+  filters: {
+    toFix,
+    formattedPrice,
+  },
   props: {
     cart_item_data: {
       type: Object,

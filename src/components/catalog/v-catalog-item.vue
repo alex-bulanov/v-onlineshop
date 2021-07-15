@@ -14,7 +14,7 @@
       />
       <h3 class="v-catalog-item__title">{{ product_data.name }}</h3>
       <p class="v-catalog-item__price">
-        Цена: {{ product_data.price }} &#8381;
+        Цена: {{ product_data.price | toFix | formattedPrice }}
       </p>
     </v-popup>
 
@@ -29,7 +29,7 @@
     <div class="v-catalog-item__info">
       <h3 class="v-catalog-item__title">{{ product_data.name }}</h3>
       <p class="v-catalog-item__price">
-        Цена: {{ product_data.price }} &#8381;
+        Цена: {{ product_data.price | toFix | formattedPrice }}
       </p>
       <button class="v-catalog-item__show-info" @click="showPopupInfo">
         Show info
@@ -43,6 +43,8 @@
 
 <script>
 import VPopup from "../popup/v-popup.vue";
+import toFix from "../../filters/toFix";
+import formattedPrice from "../../filters/formattedPrice";
 
 export default {
   name: "v-catalog-item",
@@ -50,6 +52,10 @@ export default {
     return {
       isInfoPopupVisible: false,
     };
+  },
+  filters: {
+    toFix,
+    formattedPrice,
   },
   mounted() {
     this.$set(this.product_data, "quantity", 1);
@@ -81,8 +87,8 @@ export default {
 <style lang="scss">
 .v-catalog-item {
   padding: $base;
-  border-radius: $base / 2;
-  background: $white;
+  border-radius: 16px;
+  background: #fff;
   box-shadow: 8px 8px 16px #ebebeb, -8px -8px 16px #ffffff;
 
   &__img-container {

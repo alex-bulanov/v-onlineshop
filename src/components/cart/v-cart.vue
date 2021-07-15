@@ -17,7 +17,9 @@
     </div>
     <div class="v-cart__total">
       <p class="v-cart__total-title">Total:</p>
-      <p class="v-cart__total-value">{{ cartTotalCost }} &#8381;</p>
+      <p class="v-cart__total-value">
+        {{ cartTotalCost | toFix | formattedPrice }}
+      </p>
     </div>
   </div>
 </template>
@@ -25,10 +27,17 @@
 <script>
 import vCartItem from "./v-cart-item.vue";
 import { mapActions } from "vuex";
+import toFix from "../../filters/toFix";
+import formattedPrice from "../../filters/formattedPrice";
+
 export default {
   name: "v-cart",
   data() {
     return {};
+  },
+  filters: {
+    toFix,
+    formattedPrice,
   },
   props: {
     cart_data: {
