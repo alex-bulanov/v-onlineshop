@@ -7,6 +7,9 @@ export default {
     state.isMobile = false;
     state.isDesktop = true;
   },
+  SET_SEARCH_VALUE_TO_VUEX: (state, value) => {
+    state.searchValue = value;
+  },
   SET_PRODUCTS_TO_STATE: (state, products) => {
     state.products = products;
   },

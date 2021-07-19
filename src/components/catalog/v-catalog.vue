@@ -78,10 +78,10 @@ export default {
     };
   },
   mounted() {
-    this.sortByCategories();
     this.GET_PRODUCTS_FROM_API().then((response) => {
       if (response.data) {
-        console.log("data ready");
+        this.sortByCategories();
+        this.sortedProductsBySearchValue(this.SEARCH_VALUE);
       }
     });
   },
@@ -112,9 +112,30 @@ export default {
         });
       }
     },
+    sortedProductsBySearchValue(value) {
+      this.sortedProducts = [...this.PRODUCTS];
+      if (value) {
+        this.sortedProducts = this.sortedProducts.filter((item) => {
+          return item.name.toLowerCase().includes(value.toLowerCase());
+        });
+      } else {
+        this.sortedProducts = this.PRODUCTS;
+      }
+    },
+  },
+  watch: {
+    SEARCH_VALUE() {
+      this.sortedProductsBySearchValue(this.SEARCH_VALUE);
+    },
   },
   computed: {
-    ...mapGetters(["PRODUCTS", "CART", "IS_MOBILE", "IS_DESKTOP"]),
+    ...mapGetters([
+      "PRODUCTS",
+      "CART",
+      "IS_MOBILE",
+      "IS_DESKTOP",
+      "SEARCH_VALUE",
+    ]),
     filteredProducts() {
       if (this.sortedProducts.length) {
         return this.sortedProducts;
@@ -128,7 +149,9 @@ export default {
 
 <style lang="scss">
 .v-catalog {
+  position: relative;
   margin: 0 auto;
+  padding-top: 16px;
 
   &__link {
     position: absolute;
